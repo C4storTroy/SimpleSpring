@@ -9,17 +9,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.home.accounts.ConnectionFactory;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.home.accounts.model.Account;
 import org.home.accounts.model.TypeAccount;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class AccountDAO {
+
     private Connection connection;
 
-    public AccountDAO() {
-        try {
-            this.connection = new ConnectionFactory().getConnection();
-        } catch (SQLException e) {
+    @Autowired
+    public AccountDAO(BasicDataSource ds) {
+        try{
+            this.connection = ds.getConnection();
+        } catch (SQLException e){
             throw new RuntimeException(e);
         }
     }

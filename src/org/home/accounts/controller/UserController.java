@@ -1,5 +1,7 @@
 package org.home.accounts.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.home.accounts.dao.UserDAO;
 import org.home.accounts.model.User;
 import org.springframework.stereotype.Controller;
@@ -14,15 +16,21 @@ public class UserController {
     }
 
     @RequestMapping("/executeLogin")
-    public String executeLogin(User user){
+    public String executeLogin(User user, HttpSession session){
 
         UserDAO userDAO = new UserDAO();
-        System.out.println(user.getLogin());
-        System.out.println(user.getPassword());
+
         if(userDAO.existUsuario(user)){
+            session.setAttribute("userauth", user);
             return "menu";
         }
 
+        return "redirect:loginForm";
+    }
+
+    @RequestMapping("logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
         return "redirect:loginForm";
     }
 }

@@ -11,18 +11,28 @@
 
 	<context:component-scan base-package="org.home.accounts" />
 	<mvc:annotation-driven />
-	
-	<mvc:default-servlet-handler/>
+
+	<mvc:default-servlet-handler />
+
+	<mvc:interceptors>
+		<bean class="org.home.accounts.interceptor.AuthorizeInterceptor" />
+	</mvc:interceptors>
+
+	<bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url" value="jdbc:hsqldb:file:accounts.db" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
-	<!-- bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basename" value="/WEB-INF/messages"></property>
-	</bean-->
+
+	<!-- bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"> 
+		<property name="basename" value="/WEB-INF/messages"></property> </bean -->
 	<bean id="conversionService"
 		class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">

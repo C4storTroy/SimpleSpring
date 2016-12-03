@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.home.accounts.dao.AccountDAO;
 import org.home.accounts.model.Account;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AccountController {
+
+
+    private AccountDAO dao;
+
+    @Autowired
+    public AccountController(AccountDAO dao){
+        this.dao = dao;
+    }
 
     @RequestMapping("form")
     public String form(){
@@ -34,7 +43,7 @@ public class AccountController {
         }
 
         System.out.println("Conta added is " + account.getDescription());
-        AccountDAO dao = new AccountDAO();
+
         dao.add(account);
 
         return "account-added";
@@ -44,7 +53,6 @@ public class AccountController {
     @RequestMapping("/listAccounts")
     public ModelAndView list(){
 
-        AccountDAO dao = new AccountDAO();
         List<Account> accounts = dao.list();
 
         ModelAndView mv = new ModelAndView("account/list");
@@ -55,7 +63,6 @@ public class AccountController {
     @RequestMapping("/removeAccount")
     public String remove(Account account){
 
-        AccountDAO dao = new AccountDAO();
         dao.remove(account);
 
         return "redirect:listAccounts";
@@ -64,7 +71,6 @@ public class AccountController {
     @RequestMapping("/payAccount")
     public void pay(Account account, HttpServletResponse response){
 
-        AccountDAO dao = new AccountDAO();
         dao.pay(account.getId());
         response.setStatus(200);
         //return "redirect:listAccounts";

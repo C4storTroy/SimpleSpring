@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-Welcome!
+<h2>First Page</h2>
+<p>Welcome, ${userauth.login} </p>
+<a href="listAccounts"> Click here </a> to see Account List
 </body>
 </html>

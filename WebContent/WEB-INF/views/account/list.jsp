@@ -60,6 +60,8 @@
 				</c:if></td>
 			</tr>
 		</c:forEach>
+		
+		<a href="logout"> Logout </a>
 
 
 	</table>
